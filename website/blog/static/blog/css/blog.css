@@ -1,0 +1,16 @@
+/* blog/static/blog/css/blog.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+#content {
+    width: 70%;
+    float: left;
+}
+
+#sidebar {
+    width: 25%;
+    float: right;
+    background: #f0f0f0;
+    padding: 10px;
+}
