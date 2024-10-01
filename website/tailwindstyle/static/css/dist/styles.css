@@ -828,6 +828,10 @@ select {
   margin-top: 0.25rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -896,6 +900,10 @@ select {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .rounded {
@@ -1033,6 +1041,10 @@ select {
 
 .font-medium {
   font-weight: 500;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .leading-normal {

@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from django import forms
+from taggit.models import Tag
 
 def index(request):
     return render(request, "blog/base.html")
@@ -32,17 +33,24 @@ def post_detail(request, year, month, day, post):
     })
 
 
-def post_list(request):
-    object_list = Post.published.all()
+def post_list(request, tag_slug=None):
+    object_list = Post.published.all()  
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)  
+        object_list = object_list.filter(tags=tag)  
+    
     paginator = Paginator(object_list, 3)
     page = request.GET.get("page")
+    
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
-        posts = paginator.page(1)
+        posts = paginator.page(1) 
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, "blog/post/list.html", {"page": page, "posts": posts})
+    
+    return render(request, "blog/post/list.html", {"page": page, "posts": posts, "tag": tag})
 
 
 class PostListView(ListView):
