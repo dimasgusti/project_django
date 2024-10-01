@@ -4,14 +4,40 @@
 {% endblock %}
 {% block content %}
   {% if sent %}
-    <h1>E-mail successfully sent</h1>
-    <p>"{{ post.title }}" was successfully sent to {{ cd.to }}.</p>
+    <h1 class="text-xl font-bold">E-mail successfully sent</h1>
+    <p class="text-black/70 text-sm">"{{ post.title }}" was successfully sent to {{ cd.to }}.</p>
   {% else %}
-    <h1>Share "{{ post.title }}" by e-mail</h1>
+    <h1 class="text-xl font-bold">Share "{{ post.title }}" by e-mail</h1>
     <form action="." method="post">
-      {{ form.as_p }}
+      {% comment %} {{ form.as_p }} {% endcomment %}
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Name</label>
+        <p class="">
+          {{ form.name }}
+        </p>
+      </div>
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Email</label>
+        <p class="">
+          {{ form.email }}
+        </p>
+      </div>
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">To</label>
+        <p class="">
+          {{ form.to }}
+        </p>
+      </div>
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Message</label>
+        <p class="">
+          {{ form.comments }}
+        </p>
+      </div>
       {% csrf_token %}
-      <input type="submit" value="Send e-mail" />
+      <p>
+        <input class="bg-blue-400 hover:bg-blue-500 p-2 text-white w-fit my-8" type="submit" value="Send e-mail" />
+      </p>
     </form>
   {% endif %}
 {% endblock %}

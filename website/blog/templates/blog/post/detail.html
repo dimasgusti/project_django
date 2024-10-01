@@ -3,10 +3,59 @@
   {{ post.title }}
 {% endblock %}
 {% block content %}
-  <h1>{{ post.title }}</h1>
-  <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-  {{ post.body|linebreaks }}
-  <p>
-    <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
+  <div class="min-h-[10rem]">  
+    <h1 class="text-xl font-bold">{{ post.title }}</h1>
+    <p class="text-sm text-black/50" class="date">Published {{ post.publish }} by {{ post.author }}</p>
+    {{ post.body|linebreaks }}
+  </div>
+  <p class="my-8">
+    <a class="bg-blue-400 hover:bg-blue-500 p-2 text-white w-fit" href="{% url 'blog:post_share' post.id %}">Share this post</a>
   </p>
+
+  {% comment %}Component Comment{% endcomment %}
+  {% with total_comments=comments.count %}
+    <h2 class="border-t my-8">{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+  {% endwith %}
+  {% for comment in comments %}
+    <div class="my-8">
+      {% comment %} <p class="info">Comment {{ forloop.counter }} by {{ comment.name }}</p> {% endcomment %}
+      <p class="info">Comment by {{ comment.name }}</p>
+      <p class="text-sm text-black/50">{{ comment.created }}</p>
+      {{ comment.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p class="border-t my-8">There are no comments yet.</p>
+  {% endfor %}
+  {% if new_comment %}
+    <h2>Your comment has been added.</h2>
+  {% else %}
+  <div class="flex flex-row justify-start border-t my-8">
+    <form action="." method="post">
+      <h2 class="text-xl my-8">Add a new comment</h2>
+      {% comment %} {{ comment_form.as_p }} {% endcomment %}
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Name</label>
+        <p class="">
+          {{ comment_form.name }}
+        </p>
+      </div>
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Email</label>
+        <p class="">
+          {{ comment_form.email }}
+        </p>
+      </div>
+      <div class="my-2">
+        <label for="{{ email_post_form.name.id_for_label }}" class="text-sm text-black/70">Comment</label>
+        <p class="">
+          {{ comment_form.body }}
+        </p>
+      </div>
+      {% csrf_token %}
+      <p>
+        <input class="bg-blue-400 hover:bg-blue-500 p-2 text-white w-fit my-8" type="submit" value="Add comment" />
+      </p>
+    </form>
+  </div>  
+  {% endif %}
 {% endblock %}
