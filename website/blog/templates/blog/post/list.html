@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 {% block title %}
   Blog
 {% endblock %}
@@ -11,14 +12,17 @@
     <div class="border my-4 mr-4 p-2">
       <h2 class="text-xl font-bold underline text-blue-400 hover:text-blue-500 w-fit"><a href="{% url 'blog:post_detail' post.publish.year post.publish.month post.publish.day post.slug %}">{{ post.title }}</a></h2>
       <p class="text-sm text-black/70">
-        Tags:
-        {% for tag in post.tags.all %}
-          <a class="text-blue-400 hover:text-blue-500" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
-          {% if not forloop.last %}, {% endif %}
-        {% endfor %}
+        Tags:{% if post.tags.all %}
+          {% for tag in post.tags.all %}
+            <a class="text-blue-400 hover:text-blue-500" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          -
+        {% endif %}
       </p>
       <p class="text-sm text-black/50 italic">Published {{ post.publish }} by {{ post.author }}</p>
-      {{ post.body|truncatewords:30|linebreaks }}
+      <div>{{ post.body|truncatewords:30|markdown }}</div>
     </div>
   {% endfor %}
   {% include 'blog/pagination.html' with page=posts %}

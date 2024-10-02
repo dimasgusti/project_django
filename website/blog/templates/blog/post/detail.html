@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 {% block title %}
   {{ post.title }}
 {% endblock %}
@@ -7,14 +8,18 @@
     <h1 class="text-xl font-bold">{{ post.title }}</h1>
     <div class="flex flex-row">
       <p class="text-sm text-black/70">
-        Tags:{% for tag in post.tags.all %}
-          <a class="text-blue-400 hover:text-blue-500" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
-          {% if not forloop.last %}, {% endif %}
-        {% endfor %}
+        Tags:{% if post.tags.all %}
+          {% for tag in post.tags.all %}
+            <a class="text-blue-400 hover:text-blue-500" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          -
+        {% endif %}
       </p>
     </div>
     <p class="text-sm text-black/50 italic" class="date">Published {{ post.publish }} by {{ post.author }}</p>
-    {{ post.body|linebreaks }}
+    <div>{{ post.body|markdown }}</div>
   </div>
   <p class="my-8">
     <a class="bg-blue-400 hover:bg-blue-500 p-2 text-white w-fit" href="{% url 'blog:post_share' post.id %}">Share this post</a>

@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'tailwind',
     'tailwindstyle',
     'django_browser_reload',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -150,3 +153,5 @@ TAILWIND_APP_NAME = 'tailwindstyle'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+SITE_ID = 1

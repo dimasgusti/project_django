@@ -48,7 +48,7 @@ def post_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)  
         object_list = object_list.filter(tags=tag)  
     
-    paginator = Paginator(object_list, 3)
+    paginator = Paginator(object_list, 5)
     page = request.GET.get("page")
     
     try:
